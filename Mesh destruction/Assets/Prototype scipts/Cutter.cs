@@ -67,11 +67,6 @@ public class Cutter
 
     }
 
-    internal static void Cut(GameObject ob, Ray ray, bool v)
-    {
-        throw new NotImplementedException();
-    }
-
     private static MeshTringle GetTriangle(int triangleIndexA, int triangleIndexB, int triangleIndexC, int submeshIndex)
     {
         {

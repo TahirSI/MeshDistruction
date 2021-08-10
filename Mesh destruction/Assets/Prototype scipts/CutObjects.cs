@@ -15,7 +15,6 @@ public class CutObjects : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Cutter.Cut(ob, Camera.main.ScreenPointToRay(Input.mousePosition), Input.GetMouseButton(0));
 
         /*
         // Check for mouse input

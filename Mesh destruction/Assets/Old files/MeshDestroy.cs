@@ -4,42 +4,19 @@ using UnityEngine;
 
 public class MeshDestroy : MonoBehaviour
 {
-    public GameObject objectToDestroy;
 
     private bool edgeSet = false;
     private Vector3 edgeVertex = Vector3.zero;
     private Vector2 edgeUV = Vector2.zero;
     private Plane edgePlane = new Plane();
 
-    public int CutCascades = 1;
+    public int Cuts = 1;
     public float ExplodeForce = 0;
 
-    public bool destroed = false;
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void DestroyMesh()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!destroed)
-        {
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                DestroyMesh();
-                destroed = true;
-            }
-        }
-    }
-
-    private void DestroyMesh()
-    {
-        var originalMesh = objectToDestroy.GetComponent<MeshFilter>().mesh;
+        var originalMesh = this.GetComponent<MeshFilter>().mesh;
         originalMesh.RecalculateBounds();
         var parts = new List<PartMesh>();
         var subParts = new List<PartMesh>();
@@ -57,7 +34,7 @@ public class MeshDestroy : MonoBehaviour
 
         parts.Add(mainPart);
 
-        for (var c = 0; c < CutCascades; c++)
+        for (var c = 0; c < Cuts; c++)
         {
             for (var i = 0; i < parts.Count; i++)
             {
@@ -83,11 +60,13 @@ public class MeshDestroy : MonoBehaviour
 
         for (var i = 0; i < parts.Count; i++)
         {
-            parts[i].MakeGameobject(objectToDestroy, CutCascades);
+            parts[i].MakeGameobject(this.gameObject, Cuts);
             parts[i].GameObject.GetComponent<Rigidbody>().AddForceAtPosition(parts[i].Bounds.center * ExplodeForce, transform.position);
+            parts[i].GameObject.tag = "Player";
+
         }
 
-        Destroy(objectToDestroy);
+        Destroy(this.gameObject);
     }
 
     private PartMesh GenerateMesh(PartMesh original, Plane plane, bool left)
